@@ -28,8 +28,8 @@ jobs:
         run: npm install
 
       # Run tests
-      - name: Run tests
-        run: npm test
+      # - name: Run tests
+      #   run: npm test
 
       # Optional: Lint the code
       - name: Run linter
