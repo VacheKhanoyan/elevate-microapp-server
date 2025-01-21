@@ -23,9 +23,9 @@ jobs:
         with:
           node-version: 18 # Adjust this to your project's Node.js version
 
-      # Install dependencies
+     # Install dependencies with legacy peer deps
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       # Run tests
       # - name: Run tests
