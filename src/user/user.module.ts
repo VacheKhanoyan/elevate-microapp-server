@@ -4,9 +4,11 @@ import { ConfigModule } from '@nestjs/config';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { PrismaService } from '../../prisma/prisma.service';
+import { EmailModule } from 'src/email/email.module';
 
 @Module({
   imports: [
+    EmailModule, 
     ConfigModule.forRoot(),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
