@@ -3,10 +3,11 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { RegisterUserDto } from './dto/register-user.dto';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class UserService {
-    constructor(private prisma: PrismaService, private jwtService: JwtService) { }
+    constructor(private prisma: PrismaService, private jwtService: JwtService, private emailService: EmailService,) { }
 
     async register(@Body() registerUserDto: RegisterUserDto) {
         const { firstname, lastname, email, password } = registerUserDto;
@@ -45,8 +46,10 @@ export class UserService {
         }
 
         const resetToken = this.jwtService.sign({ email }, { expiresIn: '15m' });
-        // Here, send the resetToken via email. You can use a service like Nodemailer.
-        return { message: 'Password reset link has been sent.', resetToken };
+
+        await this.emailService.sendPasswordReset(user.email, resetToken);
+
+        return { message: 'Password reset link has been sent.' };
     }
 
     async resetPassword(token: string, newPassword: string) {
